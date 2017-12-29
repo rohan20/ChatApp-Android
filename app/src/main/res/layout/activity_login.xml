@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context="com.rohan.chatapp.LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:singleLine="true"
-        android:text="rohan1@sportsstart.local"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        tools:context="com.rohan.chatapp.LoginActivity">
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:text="rohan1@sportsstart.local"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/b_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password">
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
-    </Button>
+        <Button
+            android:id="@+id/b_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_password">
 
-</android.support.constraint.ConstraintLayout>
+        </Button>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
