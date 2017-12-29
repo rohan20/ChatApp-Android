@@ -25,4 +25,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //smack
+    compile "org.igniterealtime.smack:smack-android:4.2.0"
+    compile "org.igniterealtime.smack:smack-tcp:4.2.0"
 }
