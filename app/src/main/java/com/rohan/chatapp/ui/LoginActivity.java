@@ -1,4 +1,4 @@
-package com.rohan.chatapp;
+package com.rohan.chatapp.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.rohan.chatapp.R;
 import com.rohan.chatapp.databinding.ActivityLoginBinding;
+import com.rohan.chatapp.service.ConnectionService;
 import com.rohan.chatapp.util.Constants;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,10 +23,10 @@ public class LoginActivity extends AppCompatActivity {
         mBinding.bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, ChatActivity.class);
+                Intent i = new Intent(LoginActivity.this, ConnectionService.class);
                 i.putExtra(Constants.USERNAME, mBinding.etEmail.getText().toString().trim());
                 i.putExtra(Constants.PASSWORD, mBinding.etPassword.getText().toString().trim());
-                startActivity(i);
+                startService(i);
             }
         });
 
