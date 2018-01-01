@@ -10,4 +10,6 @@ public class Constants {
     public static final int PORT = 5222;
     public static final String SERVICE_NAME = "";
 
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
 }
