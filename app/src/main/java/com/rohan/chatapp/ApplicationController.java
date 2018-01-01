@@ -3,6 +3,8 @@ package com.rohan.chatapp;
 import android.app.Application;
 import android.content.Context;
 
+import org.jivesoftware.smack.AbstractXMPPConnection;
+
 /**
  * Created by rohan on 02/01/18.
  */
@@ -10,8 +12,9 @@ import android.content.Context;
 public class ApplicationController extends Application {
 
     private static Context mAppContext;
+    public static AbstractXMPPConnection connection;
 
-    public Context getInstance() {
+    public static Context getInstance() {
         return mAppContext;
     }
 
