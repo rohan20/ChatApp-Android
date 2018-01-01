@@ -19,8 +19,8 @@ import java.io.IOException;
 
 public class ConnectionService extends IntentService {
 
-    public ConnectionService(String name) {
-        super(name);
+    public ConnectionService(){
+        super("ConnectionService");
     }
 
     @Override

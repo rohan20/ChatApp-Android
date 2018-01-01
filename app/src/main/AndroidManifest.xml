@@ -21,6 +21,10 @@
         </activity>
 
         <activity android:name=".ui.ChatActivity" />
+
+        <service
+            android:name=".service.ConnectionService"
+            android:exported="false" />
     </application>
 
 </manifest>

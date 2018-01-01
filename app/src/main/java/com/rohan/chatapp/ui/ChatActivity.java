@@ -34,10 +34,6 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
-
-        Intent i = getIntent();
-        mUsername = i.getStringExtra(Constants.USERNAME);
-        mPassword = i.getStringExtra(Constants.PASSWORD);
     }
 
     public static void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
