@@ -2,11 +2,15 @@ package com.rohan.chatapp;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.rohan.chatapp.databinding.ActivityChatBinding;
 import com.rohan.chatapp.util.Constants;
+
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jxmpp.stringprep.XmppStringprepException;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -23,10 +27,21 @@ public class ChatActivity extends AppCompatActivity {
         mUsername = i.getStringExtra(Constants.USERNAME);
         mPassword = i.getStringExtra(Constants.PASSWORD);
 
-        initUI();
+        try {
+            initUI();
+        } catch (XmppStringprepException e) {
+            Log.v(getClass().getName(), "Exception: " + e.getMessage());
+        }
     }
 
-    private void initUI() {
+    private void initUI() throws XmppStringprepException {
+
+        XMPPTCPConnectionConfiguration.Builder configuration = XMPPTCPConnectionConfiguration.builder();
+        configuration.setUsernameAndPassword(mUsername, mPassword);
+        configuration.setHost(Constants.HOSTNAME);
+        configuration.setPort(Constants.PORT);
+        configuration.setXmppDomain(Constants.SERVICE_NAME);
+
 
     }
 }
