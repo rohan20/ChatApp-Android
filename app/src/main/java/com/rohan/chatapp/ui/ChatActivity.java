@@ -21,6 +21,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
@@ -63,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public static void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
+    public void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
 
         Log.v("Chat", "inside setupConnection");
 
@@ -123,5 +124,15 @@ public class ChatActivity extends AppCompatActivity {
         }
         ApplicationController.connection.login();
 
+        if (ApplicationController.connection.isAuthenticated()) {
+            ChatManager chatManager = ChatManager.getInstanceFor(ApplicationController.connection);
+            chatManager.addIncomingListener(new IncomingChatMessageListener() {
+                @Override
+                public void newIncomingMessage(EntityBareJid from, Message message, Chat chat) {
+                    Toast.makeText(ChatActivity.this, message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain(), Toast.LENGTH_SHORT).show();
+                    Log.v("Chat msg received", message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain());
+                }
+            });
+        }
     }
 }
