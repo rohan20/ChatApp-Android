@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.rohan.chatapp.ApplicationController;
 import com.rohan.chatapp.ui.ChatActivity;
 import com.rohan.chatapp.util.Constants;
 
@@ -28,15 +29,21 @@ public class ConnectionService extends IntentService {
 
         String username = intent.getStringExtra(Constants.USERNAME);
         String password = intent.getStringExtra(Constants.PASSWORD);
+        String chatWith = intent.getStringExtra(Constants.CHAT_WITH);
 
-//        try {
-        Intent i = new Intent(this, ChatActivity.class);
-        i.putExtra(Constants.USERNAME, username);
-        i.putExtra(Constants.PASSWORD, password);
-        startActivity(i);
-//            ChatActivity.setupConnection(username, password);
-//        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
-//            Log.v(getClass().getName(), "Exception: " + e.getMessage());
-//        }
+        try {
+            ChatActivity.setupConnection(username, password);
+        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
+            Log.v(getClass().getName(), "Exception: " + e.getMessage());
+        }
+
+        if (ApplicationController.connection.isAuthenticated()) {
+            Intent i = new Intent(this, ChatActivity.class);
+            i.putExtra(Constants.USERNAME, username);
+            i.putExtra(Constants.PASSWORD, password);
+            i.putExtra(Constants.CHAT_WITH, chatWith);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
     }
 }

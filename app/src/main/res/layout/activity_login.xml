@@ -16,7 +16,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:text="@string/rohan1_email"
+            android:text="@string/rohan1_username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +31,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
+        <EditText
+            android:id="@+id/et_chat_with"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/chat_with"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
         <Button
             android:id="@+id/b_login"
             android:layout_width="wrap_content"
@@ -39,7 +49,7 @@
             android:text="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_password">
+            app:layout_constraintTop_toBottomOf="@id/et_chat_with">
 
         </Button>
 

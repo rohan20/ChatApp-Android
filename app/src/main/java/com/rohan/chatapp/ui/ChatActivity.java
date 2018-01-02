@@ -1,9 +1,7 @@
 package com.rohan.chatapp.ui;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +17,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
@@ -35,27 +34,30 @@ import java.net.InetAddress;
 public class ChatActivity extends AppCompatActivity {
 
     private ActivityChatBinding mBinding;
-    private String mUsername;
-    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
 
-        try {
-            setupConnection(getIntent().getStringExtra(Constants.USERNAME), getIntent().getStringExtra(Constants.PASSWORD));
-        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
-            Log.v(getClass().getName(), "Exception: " + e.getMessage());
-        }
-
         mBinding.bSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ApplicationController.connection.isConnected()) {
+                if (ApplicationController.connection.isAuthenticated()) {
                     try {
-                        Chat chat = ChatManager.getInstanceFor(ApplicationController.connection).chatWith(JidCreate.entityBareFrom("rohan2@sportsstart.local"));
+                        ChatManager chatManager = ChatManager.getInstanceFor(ApplicationController.connection);
+                        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom("rohan1@sportsstart.local"));
+
+                        chatManager.addIncomingListener(new IncomingChatMessageListener() {
+                            @Override
+                            public void newIncomingMessage(EntityBareJid from, Message message, Chat chat) {
+                                Toast.makeText(ApplicationController.getInstance(), message + " localPart2: " + from.getLocalpart() + " domain2: " + from.getDomain(), Toast.LENGTH_SHORT).show();
+                                Log.v("Chat msg received2", message + " localPart2: " + from.getLocalpart() + " domain2: " + from.getDomain());
+                            }
+                        });
+
                         chat.send(mBinding.etMessage.getText().toString().trim());
+
                     } catch (XmppStringprepException | SmackException.NotConnectedException | InterruptedException e) {
                         Log.v("Send chat", "Exception: " + e.getMessage());
                     }
@@ -64,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
+    public static void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
 
         Log.v("Chat", "inside setupConnection");
 
@@ -73,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
 //        configuration.setHost(Constants.HOSTNAME);
         configuration.setHostAddress(InetAddress.getByName(Constants.HOSTNAME));
         configuration.setPort(Constants.PORT);
+        configuration.setSendPresence(false);
         configuration.setXmppDomain("@" + Constants.SERVICE_NAME);
         configuration.setSendPresence(false);
         configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
@@ -122,17 +125,7 @@ public class ChatActivity extends AppCompatActivity {
         if (!ApplicationController.connection.isConnected()) {
             ApplicationController.connection.connect();
         }
-        ApplicationController.connection.login();
 
-        if (ApplicationController.connection.isAuthenticated()) {
-            ChatManager chatManager = ChatManager.getInstanceFor(ApplicationController.connection);
-            chatManager.addIncomingListener(new IncomingChatMessageListener() {
-                @Override
-                public void newIncomingMessage(EntityBareJid from, Message message, Chat chat) {
-                    Toast.makeText(ChatActivity.this, message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain(), Toast.LENGTH_SHORT).show();
-                    Log.v("Chat msg received", message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain());
-                }
-            });
-        }
+        ApplicationController.connection.login();
     }
 }
