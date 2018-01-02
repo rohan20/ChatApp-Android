@@ -23,6 +23,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -37,9 +38,13 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public static void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {
+
+        Log.v("Chat", "inside setupConnection");
+
         XMPPTCPConnectionConfiguration.Builder configuration = XMPPTCPConnectionConfiguration.builder();
         configuration.setUsernameAndPassword(username, password);
-        configuration.setHost(Constants.HOSTNAME);
+//        configuration.setHost(Constants.HOSTNAME);
+        configuration.setHostAddress(InetAddress.getByName(Constants.HOSTNAME));
         configuration.setPort(Constants.PORT);
         configuration.setXmppDomain("@" + Constants.SERVICE_NAME);
         configuration.setSendPresence(false);
@@ -90,7 +95,7 @@ public class ChatActivity extends AppCompatActivity {
         if (!ApplicationController.connection.isConnected()) {
             ApplicationController.connection.connect();
         }
-
         ApplicationController.connection.login();
+
     }
 }
