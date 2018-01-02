@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class ConnectionService extends IntentService {
 
-    public ConnectionService(){
+    public ConnectionService() {
         super("ConnectionService");
     }
 
@@ -29,10 +29,14 @@ public class ConnectionService extends IntentService {
         String username = intent.getStringExtra(Constants.USERNAME);
         String password = intent.getStringExtra(Constants.PASSWORD);
 
-        try {
-            ChatActivity.setupConnection(username, password);
-        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
-            Log.v(getClass().getName(), "Exception: " + e.getMessage());
-        }
+//        try {
+        Intent i = new Intent(this, ChatActivity.class);
+        i.putExtra(Constants.USERNAME, username);
+        i.putExtra(Constants.PASSWORD, password);
+        startActivity(i);
+//            ChatActivity.setupConnection(username, password);
+//        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
+//            Log.v(getClass().getName(), "Exception: " + e.getMessage());
+//        }
     }
 }

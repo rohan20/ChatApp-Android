@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.rohan.chatapp.ApplicationController;
@@ -35,6 +36,19 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
+
+        try {
+            setupConnection(getIntent().getStringExtra(Constants.USERNAME), getIntent().getStringExtra(Constants.PASSWORD));
+        } catch (IOException | InterruptedException | XMPPException | SmackException e) {
+            Log.v(getClass().getName(), "Exception: " + e.getMessage());
+        }
+
+        mBinding.bSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     public static void setupConnection(String username, String password) throws IOException, InterruptedException, XMPPException, SmackException {

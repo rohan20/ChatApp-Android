@@ -8,8 +8,8 @@ public class Constants {
 
 //    public static final String HOSTNAME = "localhost"; //for device
     public static final String HOSTNAME = "10.0.2.2"; //for emulator
-//    public static final int PORT = 5280; //for device
-    public static final int PORT = 5222; //for device
+//    public static final int PORT = 5280;
+    public static final int PORT = 5222;
     public static final String SERVICE_NAME = "sportsstart.local";
 
     public static final String USERNAME = "username";
