@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.rohan.chatapp.ApplicationController;
+import com.rohan.chatapp.chat.ConnectionManager;
 import com.rohan.chatapp.ui.ChatActivity;
 import com.rohan.chatapp.util.Constants;
 
@@ -32,7 +33,7 @@ public class ConnectionService extends IntentService {
         String chatWith = intent.getStringExtra(Constants.CHAT_WITH);
 
         try {
-            ChatActivity.setupConnection(username, password);
+            ConnectionManager.setupConnection(username, password);
         } catch (IOException | InterruptedException | XMPPException | SmackException e) {
             Log.v(getClass().getName(), "Exception: " + e.getMessage());
         }

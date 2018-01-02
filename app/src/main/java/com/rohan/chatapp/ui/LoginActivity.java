@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.rohan.chatapp.ApplicationController;
 import com.rohan.chatapp.R;
 import com.rohan.chatapp.databinding.ActivityLoginBinding;
 import com.rohan.chatapp.service.ConnectionService;
@@ -28,8 +29,18 @@ public class LoginActivity extends AppCompatActivity {
                 i.putExtra(Constants.PASSWORD, mBinding.etPassword.getText().toString().trim());
                 i.putExtra(Constants.CHAT_WITH, mBinding.etChatWith.getText().toString().trim());
                 startService(i);
+
+                launchChatActivity();
             }
         });
 
+    }
+
+    private void launchChatActivity() {
+        Intent i = new Intent(LoginActivity.this, ChatActivity.class);
+        i.putExtra(Constants.USERNAME, mBinding.etEmail.getText().toString().trim());
+        i.putExtra(Constants.PASSWORD, mBinding.etPassword.getText().toString().trim());
+        i.putExtra(Constants.CHAT_WITH, mBinding.etChatWith.getText().toString().trim());
+        startActivity(i);
     }
 }
