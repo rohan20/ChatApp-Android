@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(LoginActivity.this, ConnectionService.class);
                 i.putExtra(Constants.USERNAME, mBinding.etEmail.getText().toString().trim());
                 i.putExtra(Constants.PASSWORD, mBinding.etPassword.getText().toString().trim());
+                i.putExtra(Constants.CHAT_WITH, mBinding.etChatWith.getText().toString().trim());
                 startService(i);
             }
         });

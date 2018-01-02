@@ -1,7 +1,10 @@
 package com.rohan.chatapp.ui;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,12 +27,14 @@ import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -46,16 +51,15 @@ public class ChatActivity extends AppCompatActivity {
                 if (ApplicationController.connection.isAuthenticated()) {
                     try {
                         ChatManager chatManager = ChatManager.getInstanceFor(ApplicationController.connection);
-                        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom("rohan1@sportsstart.local"));
 
                         chatManager.addIncomingListener(new IncomingChatMessageListener() {
                             @Override
-                            public void newIncomingMessage(EntityBareJid from, Message message, Chat chat) {
-                                Toast.makeText(ApplicationController.getInstance(), message + " localPart2: " + from.getLocalpart() + " domain2: " + from.getDomain(), Toast.LENGTH_SHORT).show();
-                                Log.v("Chat msg received2", message + " localPart2: " + from.getLocalpart() + " domain2: " + from.getDomain());
+                            public void newIncomingMessage(final EntityBareJid from, final Message message, Chat chat) {
+                                Log.v("Chat msg received", message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain());
                             }
                         });
 
+                        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom(getIntent().getStringExtra(Constants.CHAT_WITH)));
                         chat.send(mBinding.etMessage.getText().toString().trim());
 
                     } catch (XmppStringprepException | SmackException.NotConnectedException | InterruptedException e) {
@@ -75,9 +79,8 @@ public class ChatActivity extends AppCompatActivity {
 //        configuration.setHost(Constants.HOSTNAME);
         configuration.setHostAddress(InetAddress.getByName(Constants.HOSTNAME));
         configuration.setPort(Constants.PORT);
-        configuration.setSendPresence(false);
+        configuration.setSendPresence(true);
         configuration.setXmppDomain("@" + Constants.SERVICE_NAME);
-        configuration.setSendPresence(false);
         configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
         configuration.setDebuggerEnabled(true);
 
@@ -127,5 +130,10 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         ApplicationController.connection.login();
+
+        OfflineMessageManager offlineMessageManager = new OfflineMessageManager(ApplicationController.connection);
+        int size = offlineMessageManager.getMessageCount();
+        List<Message> messageList = offlineMessageManager.getMessages();
+        Log.v("Offline messages (" + size + "): ", messageList.toString());
     }
 }
