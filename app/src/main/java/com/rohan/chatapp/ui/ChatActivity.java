@@ -1,6 +1,5 @@
 package com.rohan.chatapp.ui;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,26 +14,14 @@ import com.rohan.chatapp.R;
 import com.rohan.chatapp.databinding.ActivityChatBinding;
 import com.rohan.chatapp.util.Constants;
 
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -55,7 +42,13 @@ public class ChatActivity extends AppCompatActivity {
                         chatManager.addIncomingListener(new IncomingChatMessageListener() {
                             @Override
                             public void newIncomingMessage(final EntityBareJid from, final Message message, Chat chat) {
-                                Log.v("Chat msg received", message + " localPart: " + from.getLocalpart() + " domain: " + from.getDomain());
+                                Log.v("Chat_msg_received", message.getBody() + " from: " + from);
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), message.getBody(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         });
 
@@ -69,6 +62,5 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

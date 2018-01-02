@@ -37,14 +37,5 @@ public class ConnectionService extends IntentService {
         } catch (IOException | InterruptedException | XMPPException | SmackException e) {
             Log.v(getClass().getName(), "Exception: " + e.getMessage());
         }
-
-        if (ApplicationController.connection.isAuthenticated()) {
-            Intent i = new Intent(this, ChatActivity.class);
-            i.putExtra(Constants.USERNAME, username);
-            i.putExtra(Constants.PASSWORD, password);
-            i.putExtra(Constants.CHAT_WITH, chatWith);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        }
     }
 }
