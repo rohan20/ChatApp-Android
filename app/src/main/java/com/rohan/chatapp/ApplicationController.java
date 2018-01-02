@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smack.chat2.Chat;
 
 /**
  * Created by rohan on 02/01/18.

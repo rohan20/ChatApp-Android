@@ -19,8 +19,13 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat2.Chat;
+import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jxmpp.jid.EntityBareJid;
+import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.IOException;
@@ -46,7 +51,14 @@ public class ChatActivity extends AppCompatActivity {
         mBinding.bSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (ApplicationController.connection.isConnected()) {
+                    try {
+                        Chat chat = ChatManager.getInstanceFor(ApplicationController.connection).chatWith(JidCreate.entityBareFrom("rohan2@sportsstart.local"));
+                        chat.send(mBinding.etMessage.getText().toString().trim());
+                    } catch (XmppStringprepException | SmackException.NotConnectedException | InterruptedException e) {
+                        Log.v("Send chat", "Exception: " + e.getMessage());
+                    }
+                }
             }
         });
     }
